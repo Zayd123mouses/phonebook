@@ -4,7 +4,7 @@ const express = require('express')
 var morgan = require('morgan')
 const cors = require('cors')
 
-
+const isnum = require('./models/person')
 const app = express()
 app.use(express.json())
 
@@ -73,6 +73,24 @@ app.post('/api/persons', (request, response, next) => {
 
 app.put('/api/persons/:id', (request, response, next) => { 
   const body = request.body
+  if(body.name === '' || body.number === ''){
+    return response.status(400).json({
+      error:"Invalid Number"
+    })
+  }
+  array = body.number.split('-')
+    if(array.length !== 2){
+      return false
+    } else if (array[0].length <2 || array[0].length > 3){
+      return false
+    }
+    let isnum = /^\d+$/.test(array.join(''));
+    
+    if(!isnum){
+      return response.status(400).json({
+        error:"Invalid Number"
+      })
+    }
 
   const person = {
     name: body.name,
