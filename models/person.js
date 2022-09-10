@@ -12,14 +12,30 @@ mongoose.connect(url)
 
   })
 
+  function validator (val) {
+    array = val.split('-')
+    if(array.length !== 2){
+      return false
+    } else if (array[0].length <2 || array[0].length > 3){
+      return false
+    }
+    let isnum = /^\d+$/.test(array.join(''));
+    
+    return isnum
+    ;
+  }
+
+ const custom = [validator, 'Invalid number format,  valid number: xxx-xxxxx']
 const personSchema = new mongoose.Schema({
   name: {
     type: String,
     minLength: 3,
     required: true
   },
-  date: { 
+  number: { 
     type: String,
+    minLength: 8,
+    validate: custom,
     required: true
   },
 })

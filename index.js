@@ -40,47 +40,34 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 
 
-app.post('/api/persons', (request, response) => { 
+app.post('/api/persons', (request, response, next) => { 
     console.log(request.body)
     let body = request.body 
+    
+    Person.find({name:body.name})
+    .then(person=>{ 
+      console.log(person[0])
+      if (person[0]){
+        return response.json({Error: "Name already exist"})
+      } else{
 
-    if (body.content === undefined) {
-      return response.status(400).json({ error: 'content missing' })
-
-    } else if(!body.name  || body.name === ''){
-
-        return  response.status(400).json({
-            content: ` name can not be empty`
+        const note = new Person({
+          name: body.name,
+          number: body.number
         })
-       
-     } else if(body.number === '' || !body.number){
-        return  response.status(400).json({
-            content: ` Number can not be empty`
-        })
-     }
+      
+        note.save().then(savedNote => {
+          response.json(savedNote)
+        }) .catch(error=> next(error))
+    
+      }
 
 
-    const exist = Person.find(person=>person.name === body.name)
-    if(exist){
-
-        console.log(`${exist.name} already in the phonebook`)
-        return  response.status(400).json({
-            error: 'name must be unique'
-        })
 
         
-    }
-   
+})
+ 
     
-    const note = new Person({
-      name: body.name,
-      number: body.number
-    })
-  
-    note.save().then(savedNote => {
-      response.json(savedNote)
-    })
-
 })
 
 
@@ -143,6 +130,8 @@ app.use(unknownEndpoint)
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
+      console.log("test")
+      console.log(error)
       return response.status(400).json({ error: error.message })
     }
   

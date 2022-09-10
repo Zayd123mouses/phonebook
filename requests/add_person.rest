@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
    
-    "name": "Testing backend",
-    "number":"123"
+    "name": "test validation",
+    "number":"1-5555456789"
 
 }
