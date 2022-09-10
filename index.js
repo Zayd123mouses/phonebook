@@ -36,6 +36,10 @@ let persons =[
 ]
 
   
+app.get('/', (request, response) => {   
+  response.send('<h1>Hello World!</h1>')
+})
+
 app.get('/api/persons', (request, response) => {   
     console.log(request);
     response.json(persons)
