@@ -2,7 +2,6 @@ const { request, response } = require('express')
 const express = require('express')
 var morgan = require('morgan')
 const cors = require('cors')
-app.use(express.static('build'))
 
 
 
@@ -12,6 +11,10 @@ app.use(express.json())
 
 app.use(morgan("tiny"))
 app.use(cors())
+
+
+
+
 let persons =[
      { 
       "id": 1,
