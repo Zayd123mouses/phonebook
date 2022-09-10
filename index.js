@@ -44,13 +44,11 @@ app.post('/api/persons', (request, response) => {
     console.log(request.body)
     let body = request.body 
 
-    if(!body){
-        return response.status(400).json({ 
-          error: 'content missing' 
-        })
-      
+    if (body.content === undefined) {
+      return response.status(400).json({ error: 'content missing' })
 
-     } else if(!body.name  || body.name === ''){
+    } else if(!body.name  || body.name === ''){
+
         return  response.status(400).json({
             content: ` name can not be empty`
         })
@@ -62,12 +60,15 @@ app.post('/api/persons', (request, response) => {
      }
 
 
-    const exist = persons.find(person=>person.name === body.name)
+    const exist = Person.find(person=>person.name === body.name)
     if(exist){
+
         console.log(`${exist.name} already in the phonebook`)
         return  response.status(400).json({
             error: 'name must be unique'
         })
+
+        
     }
    
     
@@ -141,7 +142,9 @@ app.use(unknownEndpoint)
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name === 'ValidationError') {
+      return response.status(400).json({ error: error.message })
+    }
   
     next(error)
   }
