@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
    
-    "name": "zero",
-    "number":123
+    "name": "Testing backend",
+    "number":"123"
 
 }
