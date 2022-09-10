@@ -132,10 +132,7 @@ app.get('/api/persons/:id', (request, response,next)=>{
   .catch(error => next(error))
 })
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
-app.use(unknownEndpoint)
+
 
 
 app.get('/info',(request, response)=>{
@@ -149,6 +146,10 @@ app.get('/info',(request, response)=>{
               })
 })
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
 
 
 
