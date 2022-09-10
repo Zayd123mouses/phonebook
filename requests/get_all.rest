@@ -4,6 +4,6 @@ Content-Type: application/json
 {
    
     "name": "Edited zero",
-    "number":"123"
+    "number":""
 
 }
